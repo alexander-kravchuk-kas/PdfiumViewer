@@ -1,9 +1,10 @@
-﻿using System;
+﻿using PdfiumViewer;
+using System;
 using System.Collections.Generic;
 
 #pragma warning disable 1591
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     public enum PdfError
     {

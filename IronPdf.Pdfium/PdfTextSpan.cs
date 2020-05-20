@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #pragma warning disable 1591
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     public struct PdfTextSpan : IEquatable<PdfTextSpan>
     {
@@ -26,15 +26,15 @@ namespace PdfiumViewer
         public bool Equals(PdfTextSpan other)
         {
             return
-                (Page == other.Page) &&
-                (Offset == other.Offset) &&
-                (Length == other.Length);
+                Page == other.Page &&
+                Offset == other.Offset &&
+                Length == other.Length;
         }
 
         public override bool Equals(object obj)
         {
             return
-                (obj is PdfTextSpan) &&
+                obj is PdfTextSpan &&
                 Equals((PdfTextSpan)obj);
         }
 
@@ -43,8 +43,8 @@ namespace PdfiumViewer
             unchecked
             {
                 int hashCode = Page;
-                hashCode = (hashCode * 397) ^ Offset;
-                hashCode = (hashCode * 397) ^ Length;
+                hashCode = hashCode * 397 ^ Offset;
+                hashCode = hashCode * 397 ^ Length;
                 return hashCode;
             }
         }

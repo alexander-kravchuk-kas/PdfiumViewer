@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     /// <summary>
     /// Describes a link on a page.

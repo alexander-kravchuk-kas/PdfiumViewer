@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     internal class PdfPrintDocument : PrintDocument
     {
@@ -13,7 +13,7 @@ namespace PdfiumViewer
 
         public PdfPrintDocument(IPdfDocument document, PdfPrintSettings settings)
         {
-            if(document == null)
+            if (document == null)
             {
                 throw new ArgumentNullException(nameof(document));
             }
@@ -28,12 +28,12 @@ namespace PdfiumViewer
 
         private static int AdjustDpi(double value, double dpi)
         {
-            return (int)((value / 100.0) * dpi);
+            return (int)(value / 100.0 * dpi);
         }
 
         private Orientation GetOrientation(SizeF pageSize)
         {
-            if(pageSize.Height > pageSize.Width)
+            if (pageSize.Height > pageSize.Width)
             {
                 return Orientation.Portrait;
             }
@@ -46,31 +46,31 @@ namespace PdfiumViewer
             var settings = _settings.MultiplePages;
 
             int pagesPerPage = settings.Horizontal * settings.Vertical;
-            int pageCount = ((_document.PageCount - 1) / pagesPerPage) + 1;
+            int pageCount = (_document.PageCount - 1) / pagesPerPage + 1;
 
-            if(_currentPage < pageCount)
+            if (_currentPage < pageCount)
             {
-                double width = e.PageBounds.Width - (e.PageSettings.HardMarginX * 2);
-                double height = e.PageBounds.Height - (e.PageSettings.HardMarginY * 2);
+                double width = e.PageBounds.Width - e.PageSettings.HardMarginX * 2;
+                double height = e.PageBounds.Height - e.PageSettings.HardMarginY * 2;
 
-                double widthPerPage = (width - ((settings.Horizontal - 1) * settings.Margin)) / settings.Horizontal;
-                double heightPerPage = (height - ((settings.Vertical - 1) * settings.Margin)) / settings.Vertical;
+                double widthPerPage = (width - (settings.Horizontal - 1) * settings.Margin) / settings.Horizontal;
+                double heightPerPage = (height - (settings.Vertical - 1) * settings.Margin) / settings.Vertical;
 
-                for(int horizontal = 0; horizontal < settings.Horizontal; horizontal++)
+                for (int horizontal = 0; horizontal < settings.Horizontal; horizontal++)
                 {
-                    for(int vertical = 0; vertical < settings.Vertical; vertical++)
+                    for (int vertical = 0; vertical < settings.Vertical; vertical++)
                     {
                         int page = _currentPage * pagesPerPage;
-                        if(settings.Orientation == PdfOrientation.Horizontal)
+                        if (settings.Orientation == PdfOrientation.Horizontal)
                         {
-                            page += (vertical * settings.Vertical) + horizontal;
+                            page += vertical * settings.Vertical + horizontal;
                         }
                         else
                         {
-                            page += (horizontal * settings.Horizontal) + vertical;
+                            page += horizontal * settings.Horizontal + vertical;
                         }
 
-                        if(page >= _document.PageCount)
+                        if (page >= _document.PageCount)
                         {
                             continue;
                         }
@@ -85,7 +85,7 @@ namespace PdfiumViewer
                 _currentPage++;
             }
 
-            if(PrinterSettings.ToPage > 0)
+            if (PrinterSettings.ToPage > 0)
             {
                 pageCount = Math.Min(PrinterSettings.ToPage, pageCount);
             }
@@ -95,7 +95,7 @@ namespace PdfiumViewer
 
         private void PrintSinglePage(PrintPageEventArgs e)
         {
-            if(_currentPage < _document.PageCount)
+            if (_currentPage < _document.PageCount)
             {
                 var pageOrientation = GetOrientation(_document.PageSizes[_currentPage]);
                 var printOrientation = GetOrientation(e.PageBounds.Size);
@@ -107,12 +107,12 @@ namespace PdfiumViewer
                 double width;
                 double height;
 
-                if(_settings.Mode == PdfPrintMode.ShrinkToMargin)
+                if (_settings.Mode == PdfPrintMode.ShrinkToMargin)
                 {
                     left = 0;
                     top = 0;
-                    width = e.PageBounds.Width - (e.PageSettings.HardMarginX * 2);
-                    height = e.PageBounds.Height - (e.PageSettings.HardMarginY * 2);
+                    width = e.PageBounds.Width - e.PageSettings.HardMarginX * 2;
+                    height = e.PageBounds.Height - e.PageSettings.HardMarginY * 2;
                 }
                 else
                 {
@@ -122,7 +122,7 @@ namespace PdfiumViewer
                     height = e.PageBounds.Height;
                 }
 
-                if(pageOrientation != printOrientation)
+                if (pageOrientation != printOrientation)
                 {
                     Swap(ref height, ref width);
                     Swap(ref left, ref top);
@@ -132,7 +132,7 @@ namespace PdfiumViewer
                 _currentPage++;
             }
 
-            int pageCount = (PrinterSettings.ToPage == 0)
+            int pageCount = PrinterSettings.ToPage == 0
                 ? _document.PageCount
                 : Math.Min(PrinterSettings.ToPage, _document.PageCount);
 
@@ -149,7 +149,7 @@ namespace PdfiumViewer
             double scaledWidth = width;
             double scaledHeight = height;
 
-            if(pageScale > printScale)
+            if (pageScale > printScale)
             {
                 scaledWidth = width * (printScale / pageScale);
             }
@@ -174,7 +174,7 @@ namespace PdfiumViewer
         protected virtual void OnBeforePrintPage(PrintPageEventArgs e)
         {
             var ev = BeforePrintPage;
-            if(ev != null)
+            if (ev != null)
             {
                 ev(this, e);
             }
@@ -183,7 +183,7 @@ namespace PdfiumViewer
         protected virtual void OnBeforeQueryPageSettings(QueryPageSettingsEventArgs e)
         {
             var ev = BeforeQueryPageSettings;
-            if(ev != null)
+            if (ev != null)
             {
                 ev(this, e);
             }
@@ -191,7 +191,7 @@ namespace PdfiumViewer
 
         protected override void OnBeginPrint(PrintEventArgs e)
         {
-            _currentPage = (PrinterSettings.FromPage == 0) ? 0 : (PrinterSettings.FromPage - 1);
+            _currentPage = PrinterSettings.FromPage == 0 ? 0 : PrinterSettings.FromPage - 1;
 
             base.OnBeginPrint(e);
         }
@@ -200,7 +200,7 @@ namespace PdfiumViewer
         {
             OnBeforePrintPage(e);
 
-            if(_settings.MultiplePages != null)
+            if (_settings.MultiplePages != null)
             {
                 PrintMultiplePages(e);
             }
@@ -220,11 +220,11 @@ namespace PdfiumViewer
             // whether the page rotation matches the landscape setting.
             bool inverseLandscape = e.PageSettings.Bounds.Width > e.PageSettings.Bounds.Height != e.PageSettings.Landscape;
 
-            if((_settings.MultiplePages == null) && (_currentPage < _document.PageCount))
+            if (_settings.MultiplePages == null && _currentPage < _document.PageCount)
             {
                 bool landscape = GetOrientation(_document.PageSizes[_currentPage]) == Orientation.Landscape;
 
-                if(inverseLandscape)
+                if (inverseLandscape)
                 {
                     landscape = !landscape;
                 }

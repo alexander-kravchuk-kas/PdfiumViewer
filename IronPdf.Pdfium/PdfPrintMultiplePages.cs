@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     /// <summary>
     /// Configuration for printing multiple PDF pages on a single page.
@@ -19,17 +19,17 @@ namespace PdfiumViewer
         /// <param name="margin">The margin between PDF pages in device units.</param>
         public PdfPrintMultiplePages(int horizontal, int vertical, PdfOrientation orientation, float margin)
         {
-            if(horizontal < 1)
+            if (horizontal < 1)
             {
                 throw new ArgumentOutOfRangeException("horizontal cannot be less than one");
             }
 
-            if(vertical < 1)
+            if (vertical < 1)
             {
                 throw new ArgumentOutOfRangeException("vertical cannot be less than one");
             }
 
-            if(margin < 0)
+            if (margin < 0)
             {
                 throw new ArgumentOutOfRangeException("margin cannot be less than zero");
             }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     internal static class StreamManager
     {
@@ -12,7 +12,7 @@ namespace PdfiumViewer
 
         public static Stream Get(int id)
         {
-            lock(_syncRoot)
+            lock (_syncRoot)
             {
                 Stream stream;
                 _files.TryGetValue(id, out stream);
@@ -22,12 +22,12 @@ namespace PdfiumViewer
 
         public static int Register(Stream stream)
         {
-            if(stream == null)
+            if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            lock(_syncRoot)
+            lock (_syncRoot)
             {
                 int id = _nextId++;
                 _files.Add(id, stream);
@@ -37,7 +37,7 @@ namespace PdfiumViewer
 
         public static void Unregister(int id)
         {
-            lock(_syncRoot)
+            lock (_syncRoot)
             {
                 _files.Remove(id);
             }

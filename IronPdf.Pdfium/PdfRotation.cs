@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     /// <summary>
     /// Specifies the rotation of pages shown in the PDF renderer.

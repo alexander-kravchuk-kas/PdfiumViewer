@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     /// <summary>
     /// Describes all links on a page.
@@ -15,7 +15,7 @@ namespace PdfiumViewer
         /// <param name="links">The links on the PDF page.</param>
         public PdfPageLinks(IList<PdfPageLink> links)
         {
-            if(links == null)
+            if (links == null)
             {
                 throw new ArgumentNullException(nameof(links));
             }

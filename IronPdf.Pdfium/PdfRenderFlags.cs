@@ -1,7 +1,8 @@
-﻿using System;
+﻿using PdfiumViewer;
+using System;
 using System.Collections.Generic;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     /// <summary>
     /// Flags that influence the page rendering process.

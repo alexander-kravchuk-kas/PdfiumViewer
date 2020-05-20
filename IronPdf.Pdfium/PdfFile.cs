@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PdfiumViewer;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -6,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     internal class PdfFile : IDisposable
     {
@@ -21,7 +22,7 @@ namespace PdfiumViewer
 
         public PdfFile(Stream stream, string password)
         {
-            if(stream == null)
+            if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
@@ -32,7 +33,7 @@ namespace PdfiumViewer
             _id = StreamManager.Register(stream);
 
             var document = NativeMethods.FPDF_LoadCustomDocument(stream, password, _id);
-            if(document == IntPtr.Zero)
+            if (document == IntPtr.Zero)
             {
                 throw new PdfException((PdfError)NativeMethods.FPDF_GetLastError());
             }
@@ -48,7 +49,7 @@ namespace PdfiumViewer
         private uint GetBookmarkPageIndex(IntPtr bookmark)
         {
             IntPtr dest = NativeMethods.FPDF_BookmarkGetDest(_document, bookmark);
-            if(dest != IntPtr.Zero)
+            if (dest != IntPtr.Zero)
             {
                 return NativeMethods.FPDFDest_GetPageIndex(_document, dest);
             }
@@ -63,7 +64,7 @@ namespace PdfiumViewer
             NativeMethods.FPDF_BookmarkGetTitle(bookmark, buffer, length);
 
             string result = Encoding.Unicode.GetString(buffer);
-            if((result.Length > 0) && (result[result.Length - 1] == 0))
+            if (result.Length > 0 && result[result.Length - 1] == 0)
             {
                 result = result.Substring(0, result.Length - 1);
             }
@@ -83,7 +84,7 @@ namespace PdfiumViewer
             // Length includes a trailing \0.
 
             uint length = NativeMethods.FPDF_GetMetaText(_document, tag, null, 0);
-            if(length <= 2)
+            if (length <= 2)
             {
                 return string.Empty;
             }
@@ -106,16 +107,16 @@ namespace PdfiumViewer
             var result = new List<PdfRectangle>();
             RectangleF? lastBounds = null;
 
-            for(int i = 0; i < matchLength; i++)
+            for (int i = 0; i < matchLength; i++)
             {
                 var bounds = GetBounds(textPage, index + i);
 
-                if((bounds.Width == 0) || (bounds.Height == 0))
+                if (bounds.Width == 0 || bounds.Height == 0)
                 {
                     continue;
                 }
 
-                if(lastBounds.HasValue &&
+                if (lastBounds.HasValue &&
                     AreClose(lastBounds.Value.Right, bounds.Left) &&
                     AreClose(lastBounds.Value.Top, bounds.Top) &&
                     AreClose(lastBounds.Value.Bottom, bounds.Bottom))
@@ -140,17 +141,17 @@ namespace PdfiumViewer
         private PdfBookmark LoadBookmark(IntPtr bookmark)
         {
             var result = new PdfBookmark
-                         {
-                             Title = GetBookmarkTitle(bookmark),
-                             PageIndex = (int)GetBookmarkPageIndex(bookmark)
-                         };
+            {
+                Title = GetBookmarkTitle(bookmark),
+                PageIndex = (int)GetBookmarkPageIndex(bookmark)
+            };
 
             //Action = NativeMethods.FPDF_BookmarkGetAction(_bookmark);
             //if (Action != IntPtr.Zero)
             //    ActionType = NativeMethods.FPDF_ActionGetType(Action);
 
             var child = NativeMethods.FPDF_BookmarkGetFirstChild(_document, bookmark);
-            if(child != IntPtr.Zero)
+            if (child != IntPtr.Zero)
             {
                 LoadBookmarks(result.Children, child);
             }
@@ -160,13 +161,13 @@ namespace PdfiumViewer
 
         private void LoadBookmarks(PdfBookmarkCollection bookmarks, IntPtr bookmark)
         {
-            if(bookmark == IntPtr.Zero)
+            if (bookmark == IntPtr.Zero)
             {
                 return;
             }
 
             bookmarks.Add(LoadBookmark(bookmark));
-            while((bookmark = NativeMethods.FPDF_BookmarkGetNextSibling(_document, bookmark)) != IntPtr.Zero)
+            while ((bookmark = NativeMethods.FPDF_BookmarkGetNextSibling(_document, bookmark)) != IntPtr.Zero)
             {
                 bookmarks.Add(LoadBookmark(bookmark));
             }
@@ -174,29 +175,29 @@ namespace PdfiumViewer
 
         protected virtual void Dispose(bool disposing)
         {
-            if(!_disposed)
+            if (!_disposed)
             {
                 StreamManager.Unregister(_id);
 
-                if(_form != IntPtr.Zero)
+                if (_form != IntPtr.Zero)
                 {
                     NativeMethods.FORM_DoDocumentAAction(_form, NativeMethods.FPDFDOC_AACTION.WC);
                     NativeMethods.FPDFDOC_ExitFormFillEnvironment(_form);
                     _form = IntPtr.Zero;
                 }
 
-                if(_document != IntPtr.Zero)
+                if (_document != IntPtr.Zero)
                 {
                     NativeMethods.FPDF_CloseDocument(_document);
                     _document = IntPtr.Zero;
                 }
 
-                if(_formCallbacksHandle.IsAllocated)
+                if (_formCallbacksHandle.IsAllocated)
                 {
                     _formCallbacksHandle.Free();
                 }
 
-                if(_stream != null)
+                if (_stream != null)
                 {
                     _stream.Dispose();
                     _stream = null;
@@ -218,12 +219,12 @@ namespace PdfiumViewer
             // Depending on whether XFA support is built into the PDFium library, the version
             // needs to be 1 or 2. We don't really care, so we just try one or the other.
 
-            for(int i = 1; i <= 2; i++)
+            for (int i = 1; i <= 2; i++)
             {
                 _formCallbacks.version = i;
 
                 _form = NativeMethods.FPDFDOC_InitFormFillEnvironment(_document, _formCallbacks);
-                if(_form != IntPtr.Zero)
+                if (_form != IntPtr.Zero)
                 {
                     break;
                 }
@@ -272,7 +273,7 @@ namespace PdfiumViewer
         {
             string dt = GetMetaText(tag);
 
-            if(string.IsNullOrEmpty(dt))
+            if (string.IsNullOrEmpty(dt))
             {
                 return null;
             }
@@ -282,7 +283,7 @@ namespace PdfiumViewer
 
             Match match = dtRegex.Match(dt);
 
-            if(match.Success)
+            if (match.Success)
             {
                 var year = match.Groups["year"].Value;
                 var month = match.Groups["month"].Value;
@@ -296,9 +297,9 @@ namespace PdfiumViewer
 
                 string formattedDate = $"{year}-{month}-{day}T{hour}:{minute}:{second}.0000000";
 
-                if(!string.IsNullOrEmpty(tzOffset))
+                if (!string.IsNullOrEmpty(tzOffset))
                 {
-                    switch(tzOffset)
+                    switch (tzOffset)
                     {
                         case "Z":
                         case "z":
@@ -315,7 +316,7 @@ namespace PdfiumViewer
                 {
                     return DateTime.Parse(formattedDate);
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
                     return null;
                 }
@@ -326,31 +327,31 @@ namespace PdfiumViewer
 
         public PdfPageLinks GetPageLinks(int pageNumber, Size pageSize)
         {
-            if(_disposed)
+            if (_disposed)
             {
                 throw new ObjectDisposedException(GetType().Name);
             }
 
             var links = new List<PdfPageLink>();
 
-            using(var pageData = new PageData(_document, _form, pageNumber))
+            using (var pageData = new PageData(_document, _form, pageNumber))
             {
                 int link = 0;
                 IntPtr annotation;
 
-                while(NativeMethods.FPDFLink_Enumerate(pageData.Page, ref link, out annotation))
+                while (NativeMethods.FPDFLink_Enumerate(pageData.Page, ref link, out annotation))
                 {
                     var destination = NativeMethods.FPDFLink_GetDest(_document, annotation);
                     int? target = null;
                     string uri = null;
 
-                    if(destination != IntPtr.Zero)
+                    if (destination != IntPtr.Zero)
                     {
                         target = (int)NativeMethods.FPDFDest_GetPageIndex(_document, destination);
                     }
 
                     var action = NativeMethods.FPDFLink_GetAction(annotation);
-                    if(action != IntPtr.Zero)
+                    if (action != IntPtr.Zero)
                     {
                         const uint length = 1024;
                         var sb = new StringBuilder(1024);
@@ -361,7 +362,7 @@ namespace PdfiumViewer
 
                     var rect = new NativeMethods.FS_RECTF();
 
-                    if(NativeMethods.FPDFLink_GetAnnotRect(annotation, rect) && (target.HasValue || (uri != null)))
+                    if (NativeMethods.FPDFLink_GetAnnotRect(annotation, rect) && (target.HasValue || uri != null))
                     {
                         links.Add(new PdfPageLink(new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top), target, uri));
                     }
@@ -373,7 +374,7 @@ namespace PdfiumViewer
 
         public List<SizeF> GetPDFDocInfo()
         {
-            if(_disposed)
+            if (_disposed)
             {
                 throw new ObjectDisposedException(GetType().Name);
             }
@@ -381,7 +382,7 @@ namespace PdfiumViewer
             int pageCount = NativeMethods.FPDF_GetPageCount(_document);
             var result = new List<SizeF>(pageCount);
 
-            for(int i = 0; i < pageCount; i++)
+            for (int i = 0; i < pageCount; i++)
             {
                 result.Add(GetPDFDocInfo(i));
             }
@@ -400,7 +401,7 @@ namespace PdfiumViewer
 
         public string GetPdfText(int page)
         {
-            using(var pageData = new PageData(_document, _form, page))
+            using (var pageData = new PageData(_document, _form, page))
             {
                 int length = NativeMethods.FPDFText_CountChars(pageData.TextPage);
                 return GetPdfText(pageData, new PdfTextSpan(page, 0, length));
@@ -409,7 +410,7 @@ namespace PdfiumViewer
 
         public string GetPdfText(PdfTextSpan textSpan)
         {
-            using(var pageData = new PageData(_document, _form, textSpan.Page))
+            using (var pageData = new PageData(_document, _form, textSpan.Page))
             {
                 return GetPdfText(pageData, textSpan);
             }
@@ -417,7 +418,7 @@ namespace PdfiumViewer
 
         public IList<PdfRectangle> GetTextBounds(PdfTextSpan textSpan)
         {
-            using(var pageData = new PageData(_document, _form, textSpan.Page))
+            using (var pageData = new PageData(_document, _form, textSpan.Page))
             {
                 return GetTextBounds(pageData.TextPage, textSpan.Page, textSpan.Offset, textSpan.Length);
             }
@@ -425,7 +426,7 @@ namespace PdfiumViewer
 
         public Point PointFromPdf(int page, PointF point)
         {
-            using(var pageData = new PageData(_document, _form, page))
+            using (var pageData = new PageData(_document, _form, page))
             {
                 NativeMethods.FPDF_PageToDevice(pageData.Page, 0, 0, (int)pageData.Width, (int)pageData.Height, 0, point.X, point.Y, out var deviceX, out var deviceY);
 
@@ -435,7 +436,7 @@ namespace PdfiumViewer
 
         public PointF PointToPdf(int page, Point point)
         {
-            using(var pageData = new PageData(_document, _form, page))
+            using (var pageData = new PageData(_document, _form, page))
             {
                 NativeMethods.FPDF_DeviceToPage(pageData.Page, 0, 0, (int)pageData.Width, (int)pageData.Height, 0, point.X, point.Y, out var deviceX, out var deviceY);
 
@@ -445,7 +446,7 @@ namespace PdfiumViewer
 
         public Rectangle RectangleFromPdf(int page, RectangleF rect)
         {
-            using(var pageData = new PageData(_document, _form, page))
+            using (var pageData = new PageData(_document, _form, page))
             {
                 NativeMethods.FPDF_PageToDevice(pageData.Page, 0, 0, (int)pageData.Width, (int)pageData.Height, 0, rect.Left, rect.Top, out var deviceX1, out var deviceY1);
 
@@ -457,7 +458,7 @@ namespace PdfiumViewer
 
         public RectangleF RectangleToPdf(int page, Rectangle rect)
         {
-            using(var pageData = new PageData(_document, _form, page))
+            using (var pageData = new PageData(_document, _form, page))
             {
                 NativeMethods.FPDF_DeviceToPage(pageData.Page, 0, 0, (int)pageData.Width, (int)pageData.Height, 0, rect.Left, rect.Top, out var deviceX1, out var deviceY1);
 
@@ -469,21 +470,21 @@ namespace PdfiumViewer
 
         public bool RenderPDFPageToBitmap(int pageNumber, IntPtr bitmapHandle, int dpiX, int dpiY, int boundsOriginX, int boundsOriginY, int boundsWidth, int boundsHeight, int rotate, NativeMethods.FPDF flags, bool renderFormFill)
         {
-            if(_disposed)
+            if (_disposed)
             {
                 throw new ObjectDisposedException(GetType().Name);
             }
 
-            using(var pageData = new PageData(_document, _form, pageNumber))
+            using (var pageData = new PageData(_document, _form, pageNumber))
             {
-                if(renderFormFill)
+                if (renderFormFill)
                 {
                     flags &= ~NativeMethods.FPDF.ANNOT;
                 }
 
                 NativeMethods.FPDF_RenderPageBitmap(bitmapHandle, pageData.Page, boundsOriginX, boundsOriginY, boundsWidth, boundsHeight, rotate, flags);
 
-                if(renderFormFill)
+                if (renderFormFill)
                 {
                     NativeMethods.FPDF_FFLDraw(_form, bitmapHandle, pageData.Page, boundsOriginX, boundsOriginY, boundsWidth, boundsHeight, rotate, flags);
                 }
@@ -494,12 +495,12 @@ namespace PdfiumViewer
 
         public bool RenderPDFPageToDC(int pageNumber, IntPtr dc, int dpiX, int dpiY, int boundsOriginX, int boundsOriginY, int boundsWidth, int boundsHeight, NativeMethods.FPDF flags)
         {
-            if(_disposed)
+            if (_disposed)
             {
                 throw new ObjectDisposedException(GetType().Name);
             }
 
-            using(var pageData = new PageData(_document, _form, pageNumber))
+            using (var pageData = new PageData(_document, _form, pageNumber))
             {
                 NativeMethods.FPDF_RenderPage(dc, pageData.Page, boundsOriginX, boundsOriginY, boundsWidth, boundsHeight, 0, flags);
             }
@@ -509,7 +510,7 @@ namespace PdfiumViewer
 
         public void RotatePage(int pageNumber, PdfRotation rotation)
         {
-            using(var pageData = new PageData(_document, _form, pageNumber))
+            using (var pageData = new PageData(_document, _form, pageNumber))
             {
                 NativeMethods.FPDFPage_SetRotation(pageData.Page, rotation);
             }
@@ -524,22 +525,22 @@ namespace PdfiumViewer
         {
             var matches = new List<PdfMatch>();
 
-            if(string.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
             {
                 return new PdfMatches(startPage, endPage, matches);
             }
 
-            for(int page = startPage; page <= endPage; page++)
+            for (int page = startPage; page <= endPage; page++)
             {
-                using(var pageData = new PageData(_document, _form, page))
+                using (var pageData = new PageData(_document, _form, page))
                 {
                     NativeMethods.FPDF_SEARCH_FLAGS flags = 0;
-                    if(matchCase)
+                    if (matchCase)
                     {
                         flags |= NativeMethods.FPDF_SEARCH_FLAGS.FPDF_MATCHCASE;
                     }
 
-                    if(wholeWord)
+                    if (wholeWord)
                     {
                         flags |= NativeMethods.FPDF_SEARCH_FLAGS.FPDF_MATCHWHOLEWORD;
                     }
@@ -548,7 +549,7 @@ namespace PdfiumViewer
 
                     try
                     {
-                        while(NativeMethods.FPDFText_FindNext(handle))
+                        while (NativeMethods.FPDFText_FindNext(handle))
                         {
                             int index = NativeMethods.FPDFText_GetSchResultIndex(handle);
 
@@ -593,7 +594,7 @@ namespace PdfiumViewer
 
             public void Dispose()
             {
-                if(!_disposed)
+                if (!_disposed)
                 {
                     NativeMethods.FORM_DoPageAAction(Page, _form, NativeMethods.FPDFPAGE_AACTION.CLOSE);
                     NativeMethods.FORM_OnBeforeClosePage(Page, _form);

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 #pragma warning disable 1591
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     public class PdfException : Exception
     {
@@ -31,7 +31,7 @@ namespace PdfiumViewer
 
         private static string GetMessage(PdfError error)
         {
-            switch(error)
+            switch (error)
             {
                 case PdfError.Success:
                     return "No error";

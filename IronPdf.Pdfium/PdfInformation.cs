@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #pragma warning disable 1591
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     /// <summary>
     /// Contains text from metadata of the document.

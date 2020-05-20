@@ -4,13 +4,13 @@ using System.Collections.ObjectModel;
 
 #pragma warning disable 1591
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     public class PdfMatches
     {
         public PdfMatches(int startPage, int endPage, IList<PdfMatch> matches)
         {
-            if(matches == null)
+            if (matches == null)
             {
                 throw new ArgumentNullException(nameof(matches));
             }

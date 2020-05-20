@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     /// <summary>
     /// Represents a PDF document.

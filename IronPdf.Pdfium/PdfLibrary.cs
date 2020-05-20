@@ -1,7 +1,8 @@
-﻿using System;
+﻿using PdfiumViewer;
+using System;
 using System.Collections.Generic;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     internal class PdfLibrary : IDisposable
     {
@@ -21,7 +22,7 @@ namespace PdfiumViewer
 
         private void Dispose(bool disposing)
         {
-            if(!_disposed)
+            if (!_disposed)
             {
                 NativeMethods.FPDF_Release();
 
@@ -38,9 +39,9 @@ namespace PdfiumViewer
 
         public static void EnsureLoaded()
         {
-            lock(_syncRoot)
+            lock (_syncRoot)
             {
-                if(_library == null)
+                if (_library == null)
                 {
                     _library = new PdfLibrary();
                 }

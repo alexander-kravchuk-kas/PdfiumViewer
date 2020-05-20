@@ -4,7 +4,7 @@ using System.Drawing;
 
 #pragma warning disable 1591
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     public struct PdfRectangle : IEquatable<PdfRectangle>
     {
@@ -30,14 +30,14 @@ namespace PdfiumViewer
         public bool Equals(PdfRectangle other)
         {
             return
-                (Page == other.Page) &&
-                (Bounds == other.Bounds);
+                Page == other.Page &&
+                Bounds == other.Bounds;
         }
 
         public override bool Equals(object obj)
         {
             return
-                (obj is PdfRectangle) &&
+                obj is PdfRectangle &&
                 Equals((PdfRectangle)obj);
         }
 
@@ -45,7 +45,7 @@ namespace PdfiumViewer
         {
             unchecked
             {
-                return (Page * 397) ^ Bounds.GetHashCode();
+                return Page * 397 ^ Bounds.GetHashCode();
             }
         }
 

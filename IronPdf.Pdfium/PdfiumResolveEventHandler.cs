@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     public delegate void PdfiumResolveEventHandler(object sender, PdfiumResolveEventArgs e);
 
