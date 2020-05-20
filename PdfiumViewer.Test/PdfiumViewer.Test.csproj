@@ -49,10 +49,14 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NUnit">
-      <Version>2.6.4</Version>
+      <Version>3.12.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IronPdf.Pdfium\IronPdf.Pdfium.csproj">
+      <Project>{f7fa4c99-4d70-4be7-b4e3-b23ea4acd4de}</Project>
+      <Name>IronPdf.Pdfium</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PdfiumViewer\PdfiumViewer.csproj">
       <Project>{438914b6-5d1c-482c-b942-5c0e057eef6f}</Project>
       <Name>PdfiumViewer</Name>

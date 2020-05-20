@@ -15,7 +15,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
@@ -53,12 +53,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="HitTest.cs" />
-    <Compile Include="IPdfDocument.cs" />
     <Compile Include="IPdfMarker.cs" />
     <Compile Include="LinkClickEventHandler.cs" />
     <Compile Include="MouseWheelMode.cs" />
-    <Compile Include="NativeMethods.cs" />
-    <Compile Include="NativeMethods.Pdfium.cs" />
     <Compile Include="NativeTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -71,37 +68,14 @@
     <Compile Include="PasswordForm.Designer.cs">
       <DependentUpon>PasswordForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PdfBookmarkCollection.cs" />
-    <Compile Include="PdfiumResolveEventHandler.cs" />
-    <Compile Include="PdfiumResolver.cs" />
-    <Compile Include="PdfPrintMultiplePages.cs" />
-    <Compile Include="PdfPrintSettings.cs" />
-    <Compile Include="PdfRectangle.cs" />
-    <Compile Include="PdfError.cs" />
-    <Compile Include="PdfException.cs" />
-    <Compile Include="PdfDocument.cs" />
-    <Compile Include="PdfFile.cs" />
+    <Compile Include="PdfFormDocument.cs" />
     <Compile Include="PdfMarker.cs" />
     <Compile Include="PdfMarkerCollection.cs" />
     <Compile Include="PdfPoint.cs" />
-    <Compile Include="PdfInformation.cs" />
     <Compile Include="PdfSearchManager.cs" />
-    <Compile Include="PdfTextSpan.cs" />
-    <Compile Include="StreamManager.cs" />
-    <Compile Include="PdfPageLink.cs" />
-    <Compile Include="PdfPageLinks.cs" />
-    <Compile Include="PdfPrintMode.cs" />
-    <Compile Include="PdfRenderFlags.cs" />
-    <Compile Include="PdfLibrary.cs" />
-    <Compile Include="PdfMatch.cs" />
-    <Compile Include="PdfPrintDocument.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="PdfRenderer.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="PdfMatches.cs" />
-    <Compile Include="PdfRotation.cs" />
     <Compile Include="PdfViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -154,6 +128,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="pan.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IronPdf.Pdfium\IronPdf.Pdfium.csproj">
+      <Project>{f7fa4c99-4d70-4be7-b4e3-b23ea4acd4de}</Project>
+      <Name>IronPdf.Pdfium</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

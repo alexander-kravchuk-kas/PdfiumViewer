@@ -155,6 +155,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IronPdf.Pdfium\IronPdf.Pdfium.csproj">
+      <Project>{f7fa4c99-4d70-4be7-b4e3-b23ea4acd4de}</Project>
+      <Name>IronPdf.Pdfium</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PdfiumViewer\PdfiumViewer.csproj">
       <Project>{438914b6-5d1c-482c-b942-5c0e057eef6f}</Project>
       <Name>PdfiumViewer</Name>
@@ -162,10 +166,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="PdfiumViewer.Native.x86.v8-xfa">
-      <Version>2017.11.2.204</Version>
+      <Version>2018.4.8.256</Version>
     </PackageReference>
     <PackageReference Include="PdfiumViewer.Native.x86_64.v8-xfa">
-      <Version>2017.11.2.204</Version>
+      <Version>2018.4.8.256</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
