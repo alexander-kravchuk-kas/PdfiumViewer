@@ -142,10 +142,6 @@
       <Project>{f7fa4c99-4d70-4be7-b4e3-b23ea4acd4de}</Project>
       <Name>IronPdf.Pdfium</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PdfiumViewer\PdfiumViewer.csproj">
-      <Project>{438914b6-5d1c-482c-b942-5c0e057eef6f}</Project>
-      <Name>PdfiumViewer</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="PdfiumViewer.Native.x86.v8-xfa">

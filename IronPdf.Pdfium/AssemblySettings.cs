@@ -1,3 +1,3 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("PdfiumViewer")]
+[assembly: InternalsVisibleTo("IronPdf.Pdfium.Forms"), InternalsVisibleTo("PdfiumViewer")]

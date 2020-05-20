@@ -155,13 +155,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IronPdf.Pdfium.Forms\IronPdf.Pdfium.Forms.csproj">
+      <Project>{28b2c064-7776-4ba6-ba0c-b93fcf2fcdf6}</Project>
+      <Name>IronPdf.Pdfium.Forms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IronPdf.Pdfium\IronPdf.Pdfium.csproj">
       <Project>{f7fa4c99-4d70-4be7-b4e3-b23ea4acd4de}</Project>
       <Name>IronPdf.Pdfium</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PdfiumViewer\PdfiumViewer.csproj">
-      <Project>{438914b6-5d1c-482c-b942-5c0e057eef6f}</Project>
-      <Name>PdfiumViewer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
