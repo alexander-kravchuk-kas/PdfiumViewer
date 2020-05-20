@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium.Forms
 {
     /// <summary>
     /// Helper class for searching through PDF documents.

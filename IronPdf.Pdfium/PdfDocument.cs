@@ -1,5 +1,4 @@
-﻿using PdfiumViewer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -24,7 +23,7 @@ namespace IronPdf.Pdfium
             _file = new PdfFile(stream, password);
 
             _pageSizes = _file.GetPDFDocInfo();
-            if (_pageSizes == null)
+            if(_pageSizes == null)
             {
                 throw new Win32Exception();
             }
@@ -34,7 +33,7 @@ namespace IronPdf.Pdfium
 
         private NativeMethods.FPDF FlagsToFPDFFlags(PdfRenderFlags flags)
         {
-            return (NativeMethods.FPDF)(flags & ~(PdfRenderFlags.Transparent | PdfRenderFlags.CorrectFromDpi));
+            return (NativeMethods.FPDF)(flags & (~(PdfRenderFlags.Transparent | PdfRenderFlags.CorrectFromDpi)));
         }
 
         /// <summary>
@@ -43,9 +42,9 @@ namespace IronPdf.Pdfium
         /// <param name="disposing">Whether this method is called from Dispose.</param>
         protected void Dispose(bool disposing)
         {
-            if (!_disposed && disposing)
+            if(!_disposed && disposing)
             {
-                if (_file != null)
+                if(_file != null)
                 {
                     _file.Dispose();
                     _file = null;
@@ -185,7 +184,7 @@ namespace IronPdf.Pdfium
         /// <param name="password">Password for the PDF document.</param>
         public static PdfDocument Load(string path, string password)
         {
-            if (path == null)
+            if(path == null)
             {
                 throw new ArgumentNullException(nameof(path));
             }
@@ -200,7 +199,7 @@ namespace IronPdf.Pdfium
         /// <param name="password">Password for the PDF document.</param>
         public static PdfDocument Load(Stream stream, string password)
         {
-            if (stream == null)
+            if(stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
@@ -307,12 +306,12 @@ namespace IronPdf.Pdfium
         /// <param name="flags">Flags used to influence the rendering.</param>
         public void Render(int page, Graphics graphics, float dpiX, float dpiY, Rectangle bounds, PdfRenderFlags flags)
         {
-            if (graphics == null)
+            if(graphics == null)
             {
                 throw new ArgumentNullException(nameof(graphics));
             }
 
-            if (_disposed)
+            if(_disposed)
             {
                 throw new ObjectDisposedException(GetType().Name);
             }
@@ -324,13 +323,13 @@ namespace IronPdf.Pdfium
 
             try
             {
-                if ((int)graphicsDpiX != (int)dpiX || (int)graphicsDpiY != (int)dpiY)
+                if(((int)graphicsDpiX != (int)dpiX) || ((int)graphicsDpiY != (int)dpiY))
                 {
                     var transform = new NativeMethods.XFORM
-                    {
-                        eM11 = graphicsDpiX / dpiX,
-                        eM22 = graphicsDpiY / dpiY
-                    };
+                                    {
+                                        eM11 = graphicsDpiX / dpiX,
+                                        eM22 = graphicsDpiY / dpiY
+                                    };
 
                     NativeMethods.SetGraphicsMode(dc, NativeMethods.GM_ADVANCED);
                     NativeMethods.ModifyWorldTransform(dc, ref transform, NativeMethods.MWT_LEFTMULTIPLY);
@@ -343,7 +342,7 @@ namespace IronPdf.Pdfium
 
                 NativeMethods.SetViewportOrgEx(dc, point.X, point.Y, out point);
 
-                if (!success)
+                if(!success)
                 {
                     throw new Win32Exception();
                 }
@@ -397,15 +396,15 @@ namespace IronPdf.Pdfium
         /// <returns>The rendered image.</returns>
         public Image Render(int page, int width, int height, float dpiX, float dpiY, PdfRotation rotate, PdfRenderFlags flags)
         {
-            if (_disposed)
+            if(_disposed)
             {
                 throw new ObjectDisposedException(GetType().Name);
             }
 
-            if ((flags & PdfRenderFlags.CorrectFromDpi) != 0)
+            if((flags & PdfRenderFlags.CorrectFromDpi) != 0)
             {
-                width = width * (int)dpiX / 72;
-                height = height * (int)dpiY / 72;
+                width = (width * ((int)dpiX)) / 72;
+                height = (height * ((int)dpiY)) / 72;
             }
 
             var bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
@@ -419,13 +418,13 @@ namespace IronPdf.Pdfium
 
                 try
                 {
-                    uint background = (flags & PdfRenderFlags.Transparent) == 0 ? 0xFFFFFFFF : 0x00FFFFFF;
+                    uint background = ((flags & PdfRenderFlags.Transparent) == 0) ? 0xFFFFFFFF : 0x00FFFFFF;
 
                     NativeMethods.FPDFBitmap_FillRect(handle, 0, 0, width, height, background);
 
                     bool success = _file.RenderPDFPageToBitmap(page, handle, (int)dpiX, (int)dpiY, 0, 0, width, height, (int)rotate, FlagsToFPDFFlags(flags), (flags & PdfRenderFlags.Annotations) != 0);
 
-                    if (!success)
+                    if(!success)
                     {
                         throw new Win32Exception();
                     }
@@ -460,12 +459,12 @@ namespace IronPdf.Pdfium
         /// <param name="path">Path to save the PDF document to.</param>
         public void Save(string path)
         {
-            if (path == null)
+            if(path == null)
             {
                 throw new ArgumentNullException(nameof(path));
             }
 
-            using (var stream = File.Create(path))
+            using(var stream = File.Create(path))
             {
                 Save(stream);
             }
@@ -477,7 +476,7 @@ namespace IronPdf.Pdfium
         /// <param name="stream">Stream to save the PDF document to.</param>
         public void Save(Stream stream)
         {
-            if (stream == null)
+            if(stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }

@@ -1,6 +1,6 @@
 ﻿#pragma warning disable 1591
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium.Forms
 {
     public enum PdfViewerZoomMode
     {

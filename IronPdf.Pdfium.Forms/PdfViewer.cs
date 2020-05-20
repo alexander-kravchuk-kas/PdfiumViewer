@@ -1,12 +1,10 @@
-﻿using IronPdf.Pdfium;
-using IronPdf.Pdfium.Forms;
-using PdfiumViewer.Properties;
+﻿using IronPdf.Pdfium.Forms.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium.Forms
 {
     /// <summary>
     /// Control to host PDF documents with support for printing.

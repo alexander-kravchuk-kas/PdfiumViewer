@@ -1,4 +1,4 @@
-﻿namespace PdfiumViewer
+﻿namespace IronPdf.Pdfium.Forms
 {
     partial class PasswordForm
     {

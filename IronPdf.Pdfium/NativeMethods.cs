@@ -1,5 +1,4 @@
-﻿using IronPdf.Pdfium;
-using Microsoft.Win32.SafeHandles;
+﻿using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +7,7 @@ using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     public static partial class NativeMethods
     {

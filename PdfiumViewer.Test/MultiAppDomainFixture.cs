@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using IronPdf.Pdfium;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,7 +68,7 @@ namespace PdfiumViewer.Test
         {
             public void Run()
             {
-                using(var stream = typeof(MultiAppDomainFixture).Assembly.GetManifestResourceStream($"{typeof(MultiAppDomainFixture).Namespace}.Example{(new Random().Next(2) + 1)}.pdf"))
+                using(var stream = typeof(MultiAppDomainFixture).Assembly.GetManifestResourceStream($"{typeof(MultiAppDomainFixture).Namespace}.Example{new Random().Next(2) + 1}.pdf"))
                 {
                     var document = PdfDocument.Load(stream);
 

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 #pragma warning disable 1591
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium.Forms
 {
     public class SetCursorEventArgs : EventArgs
     {

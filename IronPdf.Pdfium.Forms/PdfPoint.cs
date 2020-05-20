@@ -5,7 +5,7 @@ using System.Text;
 
 #pragma warning disable 1591
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium.Forms
 {
     public struct PdfPoint : IEquatable<PdfPoint>
     {

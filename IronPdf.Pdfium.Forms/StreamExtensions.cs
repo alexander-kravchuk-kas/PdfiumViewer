@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium.Forms
 {
     internal static class StreamExtensions
     {

@@ -1,5 +1,4 @@
-﻿using IronPdf.Pdfium;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -7,7 +6,7 @@ using System.Text;
 
 #pragma warning disable 1591
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium
 {
     partial class NativeMethods
     {

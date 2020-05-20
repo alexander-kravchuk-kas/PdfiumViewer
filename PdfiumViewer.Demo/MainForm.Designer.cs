@@ -86,7 +86,7 @@ namespace PdfiumViewer.Demo
             this._pageToolStripLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this._coordinatesToolStripLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.pdfViewer1 = new PdfiumViewer.PdfViewer();
+            this.pdfViewer1 = new IronPdf.Pdfium.Forms.PdfViewer();
             this.printMultiplePagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -570,7 +570,7 @@ namespace PdfiumViewer.Demo
 
         #endregion
 
-        private global::PdfiumViewer.PdfViewer pdfViewer1;
+        private global::IronPdf.Pdfium.Forms.PdfViewer pdfViewer1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;

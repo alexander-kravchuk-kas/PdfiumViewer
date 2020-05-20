@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PdfiumViewer
+namespace IronPdf.Pdfium.Forms
 {
     partial class PdfViewer
     {
@@ -42,7 +42,7 @@ namespace PdfiumViewer
             this._zoomInButton = new System.Windows.Forms.ToolStripButton();
             this._zoomOutButton = new System.Windows.Forms.ToolStripButton();
             this._container = new System.Windows.Forms.SplitContainer();
-            this._bookmarks = new PdfiumViewer.NativeTreeView();
+            this._bookmarks = new NativeTreeView();
             this._renderer = new PdfRenderer();
             this._toolStrip.SuspendLayout();
             this._container.Panel1.SuspendLayout();
@@ -65,7 +65,7 @@ namespace PdfiumViewer
             // _saveButton
             // 
             this._saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._saveButton.Image = global::PdfiumViewer.Properties.Resources.disk_blue;
+            this._saveButton.Image = global::IronPdf.Pdfium.Forms.Properties.Resources.disk_blue;
             resources.ApplyResources(this._saveButton, "_saveButton");
             this._saveButton.Name = "_saveButton";
             this._saveButton.Click += new System.EventHandler(this._saveButton_Click);
@@ -73,7 +73,7 @@ namespace PdfiumViewer
             // _printButton
             // 
             this._printButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._printButton.Image = global::PdfiumViewer.Properties.Resources.printer;
+            this._printButton.Image = global::IronPdf.Pdfium.Forms.Properties.Resources.printer;
             resources.ApplyResources(this._printButton, "_printButton");
             this._printButton.Name = "_printButton";
             this._printButton.Click += new System.EventHandler(this._printButton_Click);
@@ -86,7 +86,7 @@ namespace PdfiumViewer
             // _zoomInButton
             // 
             this._zoomInButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._zoomInButton.Image = global::PdfiumViewer.Properties.Resources.zoom_in;
+            this._zoomInButton.Image = global::IronPdf.Pdfium.Forms.Properties.Resources.zoom_in;
             resources.ApplyResources(this._zoomInButton, "_zoomInButton");
             this._zoomInButton.Name = "_zoomInButton";
             this._zoomInButton.Click += new System.EventHandler(this._zoomInButton_Click);
@@ -94,7 +94,7 @@ namespace PdfiumViewer
             // _zoomOutButton
             // 
             this._zoomOutButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._zoomOutButton.Image = global::PdfiumViewer.Properties.Resources.zoom_out;
+            this._zoomOutButton.Image = global::IronPdf.Pdfium.Forms.Properties.Resources.zoom_out;
             resources.ApplyResources(this._zoomOutButton, "_zoomOutButton");
             this._zoomOutButton.Name = "_zoomOutButton";
             this._zoomOutButton.Click += new System.EventHandler(this._zoomOutButton_Click);
@@ -129,8 +129,8 @@ namespace PdfiumViewer
             this._renderer.Name = "_renderer";
             this._renderer.Page = 0;
             this._renderer.Rotation = PdfRotation.Rotate0;
-            this._renderer.ZoomMode = PdfiumViewer.PdfViewerZoomMode.FitHeight;
-            this._renderer.LinkClick += new PdfiumViewer.LinkClickEventHandler(this._renderer_LinkClick);
+            this._renderer.ZoomMode = PdfViewerZoomMode.FitHeight;
+            this._renderer.LinkClick += new IronPdf.Pdfium.Forms.LinkClickEventHandler(this._renderer_LinkClick);
             // 
             // PdfViewer
             // 

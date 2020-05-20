@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PdfiumViewer.Properties
+namespace IronPdf.Pdfium.Forms.Properties
 {
     using System;
     
